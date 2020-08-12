@@ -1,5 +1,5 @@
 import * as commonService from '@/service/common';
-import { getItem, setItem } from '@/utils/store';
+import { getInfo, getItem, setItem } from '@/utils/store';
 
 const setData = (state, info) => {
     const errorList = info.errorList || state.errorList;
@@ -34,11 +34,17 @@ export default {
         * init(_, { call, put, select }) {
             const init = yield select(({ common }) => common.init);
             if (!init) {
-                const info = getItem('info');
+                const info = getInfo();
                 yield put({ type: 'setInfo', payload: info });
-                const { data } = yield call(commonService.getQuestions);
-                yield put({ type: 'setQuestions', payload: data });
-                return data;
+                const questions = getItem('questions');
+                if (questions) {
+                    yield put({ type: 'setQuestions', payload: questions });
+                    return questions;
+                } else {
+                    const { data } = yield call(commonService.getQuestions);
+                    yield put({ type: 'setQuestions', payload: data });
+                    return data;
+                }
             }
         },
     },
@@ -51,6 +57,7 @@ export default {
             };
         },
         setQuestions(state, { payload: questions }) {
+            setItem('questions', questions);
             return {
                 ...state,
                 init: true,

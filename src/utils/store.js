@@ -7,13 +7,18 @@ const defaultData = {
 export const getItem = val => {
     let data = {};
     try{
-        data = JSON.parse(window.localStorage.getItem(`${base}${val}`)) || defaultData;
+        data = JSON.parse(window.localStorage.getItem(`${base}${val}`));
     } catch(err) {
-        data = defaultData;
+        data = null;
     }
     finally{
         return data;
     }
+}
+
+export const getInfo = () => {
+    const data = getItem('info');
+    return data || defaultData;
 }
 
 export const setItem = (key,val) => window.localStorage.setItem(`${base}${key}`, JSON.stringify(val));
