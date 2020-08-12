@@ -20,4 +20,4 @@ router.get('/api/questions', getQuestions);
 app.use(router.routes());   /*启动路由*/
 app.use(router.allowedMethods());
 
-app.listen(3000);
+app.listen(9001);

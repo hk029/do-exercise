@@ -9,6 +9,7 @@ const colorTheme = {
 };
 
 export default {
+    publicPath: "/prjs/exercise/",
     treeShaking: true,
     routes: [
         {
