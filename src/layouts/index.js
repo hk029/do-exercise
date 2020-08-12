@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import styles from './index.css';
 import styled from 'styled-components'
-import self from '@/assets/self.png';
 import { NavBar, Icon, Modal } from 'antd-mobile';
 
 const Wrap = styled.div`
@@ -74,7 +73,7 @@ function BasicLayout(props) {
                 wrapProps={{ onTouchStart: onWrapTouchStart }}
             >
                 <div style={{ height: 300, overflow: 'scroll' }}>
-                    <Image src={self}></Image>
+                    <Image src='https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/3597264716/4a62/f06e/e0b1/4c3b53a548a225d514ba8f3bd646b648.png'></Image>
                 </div>
             </Modal>
         </div>

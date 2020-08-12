@@ -9,9 +9,9 @@ const colorTheme = {
 };
 
 export default {
-    publicPath: "/prjs/exercise/",
+    publicPath: "https://img.hksite.cn/",
     history: 'hash',
-    hash: true, // build的文件增加hash后缀，防止缓存旧文件
+    // hash: true, // build的文件增加hash后缀，防止缓存旧文件
     treeShaking: true,
     routes: [
         {
