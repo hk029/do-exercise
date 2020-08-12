@@ -7325,5 +7325,5 @@ const ques = [
 ]
 export default {
     // 支持值为 Object 和 Array
-    'GET /api/questions': { code: 200, data: ques }
+    'GET /prjs/exercise/api/questions': { code: 200, data: ques }
 };

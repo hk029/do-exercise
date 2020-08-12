@@ -1,5 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import Fetch from '@/utils/fetch';
+const base = '/prjs/exercise';
 
 // 一般来说base是//api/*
 // 在本地开发的时候，可以通过config/config.common.js中的mockUrl，配置代理服务器的地址
@@ -8,7 +9,7 @@ import Fetch from '@/utils/fetch';
  *  查询用户列表
  */
 export function getQuestions() {
-    return Fetch.get('/api/questions');
+    return Fetch.get(`${base}/api/questions`);
 }
 
 /**
