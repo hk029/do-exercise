@@ -8,6 +8,7 @@
 /package-lock.json
 
 # production
+/dist/umi.*
 
 # misc
 .DS_Store

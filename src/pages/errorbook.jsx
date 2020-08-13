@@ -95,9 +95,7 @@ function Questions(props) {
     const trueIndex = curErrorList[index] || -1;
 
     const reset = () => {
-        setIndex(0);
         setShow(false);
-        setReload(false);
         setValue('');
         setDisabled(false);
         setWarning(false);
@@ -106,6 +104,8 @@ function Questions(props) {
     useEffect(() => {
         if (!init.current || reload) {
             setErrorList(errorList);
+            setIndex(0);
+            setReload(false);
             reset();
             init.current = true;
         }
@@ -143,7 +143,7 @@ function Questions(props) {
         if (val < 0) {
             return setIndex(Math.max(0, index - 1));
         }
-        return setIndex(Math.min(curErrorList.length - 1, index + 1));
+        return setIndex(Math.min(curErrorList.length, index + 1));
     }
 
     const handleAnswer = (val) => {
@@ -166,13 +166,13 @@ function Questions(props) {
         if (!showAnswer || index < curErrorList.length - 1) {
             return null
         }
-        if (answer !== value) {
-            return <>
-                <Empty style={{ color: 'red' }}>真遗憾，还有错题😔,再接再厉吧！</Empty>
-                <Reload onClick={() => setReload(true)} show>重新开始挑战</Reload>
-            </>
+        if (errorList.length === 0) {
+            return <Empty>恭喜您完成所有错题！简直太棒了！👏</Empty>
         }
-        return <Empty>恭喜您完成所有错题！简直太棒了！👏</Empty>
+        return <>
+            <Empty style={{ color: 'red' }}>真遗憾，还有错题😔,再接再厉吧！</Empty>
+            <Reload onClick={() => setReload(true)} show>重新开始挑战</Reload>
+        </>
     }
 
     return (
