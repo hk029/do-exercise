@@ -13,15 +13,6 @@ export default {
     history: 'hash',
     // hash: true, // build的文件增加hash后缀，防止缓存旧文件
     treeShaking: true,
-    routes: [
-        {
-            path: '/',
-            component: '../layouts/index',
-            routes: [
-                { path: '/', component: '../pages/index' }
-            ]
-        }
-    ],
     plugins: [
         // ref: https://umijs.org/plugin/umi-plugin-react.html
         ['umi-plugin-react', {

@@ -91,13 +91,10 @@ export default {
             const correctList = [...state.correctList];
             const errorList = [...state.errorList];
             // 把错误列表中的元素删除
-            const idx = correctList.findIndex(id);
+            const idx = errorList.findIndex(cid => cid === id);
             errorList.splice(idx, 1);
             if (!correctList.includes(id)) {
                 correctList.push(id);
-            }
-            if (correctList.includes(id)) {
-                return state;
             }
             setData(state, { errorList, correctList });
             return {

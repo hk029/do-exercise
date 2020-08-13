@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styles from './index.css';
 import styled from 'styled-components'
+import router from 'umi/router';
 import { NavBar, Icon, Modal } from 'antd-mobile';
 
 const Wrap = styled.div`
@@ -27,33 +28,34 @@ const Image = styled.img`
 function closest(el, selector) {
     const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
     while (el) {
-      if (matchesSelector.call(el, selector)) {
-        return el;
-      }
-      el = el.parentElement;
+        if (matchesSelector.call(el, selector)) {
+            return el;
+        }
+        el = el.parentElement;
     }
     return null;
-  }
-  
+}
+
 
 function BasicLayout(props) {
     const [show, setShow] = useState(false);
+    const { location } = props;
     const onWrapTouchStart = (e) => {
         // fix touch to scroll background page on iOS
         if (!/iPhone|iPod|iPad/i.test(navigator.userAgent)) {
-          return;
+            return;
         }
         const pNode = closest(e.target, '.am-modal-content');
         if (!pNode) {
-          e.preventDefault();
+            e.preventDefault();
         }
-      }
+    }
     return (
         <div className={styles.normal}>
             <NavBar
                 mode="light"
-                icon={<Icon type="left" />}
-                onLeftClick={() => console.log('onLeftClick')}
+                icon={location.pathname !== '/' ? <Icon type="left" /> : null}
+                onLeftClick={() => router.push('/')}
                 rightContent={[
                     <Icon key="0" type="search" style={{ marginRight: '16px' }} />,
                     <Icon key="1" type="ellipsis" />,
