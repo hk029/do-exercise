@@ -6,7 +6,7 @@ const router = require('koa-router')();
 let data = fs.readFileSync('./mock/answer.json');
 data = JSON.parse(data);
 
-app.use(serve(__dirname + "/dist", { maxage: 315360000000 }));
+app.use(serve(__dirname + "/dist"));
 
 const getQuestions = async (ctx) => {
     let json = { code: 200, data }
