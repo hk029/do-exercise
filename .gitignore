@@ -9,6 +9,7 @@
 
 # production
 /dist/umi.*
+/mock/user*
 
 # misc
 .DS_Store

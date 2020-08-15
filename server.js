@@ -30,18 +30,20 @@ const getUser = async (ctx) => {
         json.code = 400;
         json.error = '请输入同步码'
     } else {
+        let info = users[name];
         // 合并数据
         if(users[name]) {
-            let info = users[name];
             // 取最大的index
             info.index = Math.max(info.index, rb.info.index);
             // 合并
             info.errorList = merge(info.errorList, rb.info.errorList);
             info.correctList = merge(info.correctList, rb.info.correctList);
         } else {
+            info = rb.info;
             users[name] = rb.info;
         }
-        console.log('user', users);
+        console.log('user', name, info);
+        json.data = {name, info};
         fs.writeFileSync('./mock/users.json', JSON.stringify(users));
     }
     ctx.status = 200;//设置状态码
@@ -49,10 +51,10 @@ const getUser = async (ctx) => {
 }
 router.get('/api/questions', getQuestions);
 
-router.post('/api/users', getUser);
+router.post('/api/user', getUser);
 
 app.use(bodyParser());
 app.use(router.routes());   /*启动路由*/
 app.use(router.allowedMethods());
 
-app.listen(9001);
+app.listen(9002);
