@@ -10,9 +10,9 @@ const Wrap = styled.div`
 const Button = styled(Link)`
     width: 80%;
     margin: 0 auto;
-    height: 200px;
+    height: 180px;
     display: block;
-    line-height: 200px;
+    line-height: 180px;
     text-align: center;
     font-size: 40px;
     background: #9deeba;
@@ -26,12 +26,18 @@ const ErrorButton = styled(Button)`
     color: #f27e39;
 `;
 
+const TestButton = styled(Button)`
+    background: #f3b8b1;
+    color: #ffffff;
+`;
+
 function Questions(props) {
 
     return (
         <Wrap>
             <Button to='/exercise'>练习</Button>
             <ErrorButton to='/errorbook'>错题本</ErrorButton>
+            <TestButton to='/test'>模拟考试</TestButton>
         </Wrap >
     );
 }

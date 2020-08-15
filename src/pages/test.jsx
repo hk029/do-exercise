@@ -62,22 +62,6 @@ const Reload = styled(Button)`
 `;
 
 
-const rainbow = ['哇，你真棒，暂时还没有错题哦！🤩',
-    '这位少侠/女侠，我看你骨骼惊奇，天赋异禀，是个练武奇才，我这有本葵花宝典……📖',
-    '竟然是零错题！小弟对你的景仰犹如滔滔江水连绵不绝又如黄河泛滥一发不可收拾，请接受小弟一拜！😍',
-    '这个智商，我能舔一辈子😘',
-    '这是哪里来的机智的小天使啊👼',
-    '你可真是万中无一，人中龙凤👍',
-    '美貌与智慧并重，说的就你吧🤔',
-]
-
-function RandomNum(Min, Max) {
-    var Range = Max - Min;
-    var Rand = Math.random();
-    var num = Min + Math.floor(Rand * Range);  //舍去
-    return num;
-}
-
 
 function Questions(props) {
     const { common, dispatch } = props;
@@ -115,11 +99,8 @@ function Questions(props) {
         reset();
     }, [index]);
 
+    return <Empty>模拟考试功能还在开发中，敬请期待！</Empty>;
 
-    if (trueIndex === undefined) {
-        const rand = RandomNum(0, rainbow.length)
-        return <Empty>{rainbow[rand]}</Empty>;
-    }
 
     const ques = questions[trueIndex] || { options: [], title: '' };
     const answer = ques.correctAnswer || ques.answer;

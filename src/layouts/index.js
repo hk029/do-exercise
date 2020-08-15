@@ -2,6 +2,7 @@ import { useState } from 'react';
 import styles from './index.css';
 import styled from 'styled-components'
 import router from 'umi/router';
+import SyncButton from './sync';
 import { NavBar, Icon, Modal } from 'antd-mobile';
 
 const Wrap = styled.div`
@@ -39,6 +40,7 @@ function closest(el, selector) {
 
 function BasicLayout(props) {
     const [show, setShow] = useState(false);
+    const [showSync, setShowSync] = useState(false);
     const { location } = props;
     const onWrapTouchStart = (e) => {
         // fix touch to scroll background page on iOS
@@ -50,12 +52,20 @@ function BasicLayout(props) {
             e.preventDefault();
         }
     }
+
+    const handleLeft = () => {
+        if(location.pathname !== '/') {
+            router.push('/')
+        } else {
+            setShowSync(true);
+        }
+    }
     return (
         <div className={styles.normal}>
             <NavBar
                 mode="light"
-                icon={location.pathname !== '/' ? <Icon type="left" /> : null}
-                onLeftClick={() => router.push('/')}
+                icon={location.pathname !== '/' ? <Icon type="left" /> : <SyncButton></SyncButton>}
+                onLeftClick={handleLeft}
                 rightContent={[
                     <Icon key="0" type="search" style={{ marginRight: '16px' }} />,
                     <Icon key="1" type="ellipsis" />,

@@ -20,10 +20,7 @@ export default {
         init: false,
         status: 1, // 先默认用户已登录
         index: 0,
-        userInfo: {
-            nickName: '姓名',
-            mailAddress: 'test@corp.netease.com',
-        },
+        user: '',
         questions: [],
         headers: [],
         errorList: [],
@@ -31,9 +28,18 @@ export default {
     },
 
     effects: {
+        * getUser({ payload: name }, { call, put, select }) {
+            const info = getInfo();
+            const { data } = yield call(commonService.getUser, name, info);
+            yield put({ type: 'setInfo', payload: data.info });
+            yield put({ type: 'setUser', payload: data.name });
+            return data;
+        },
         * init(_, { call, put, select }) {
             const init = yield select(({ common }) => common.init);
             if (!init) {
+                const user = getItem('user');
+                yield put({ type: 'setUser', payload: user });
                 const info = getInfo();
                 yield put({ type: 'setInfo', payload: info });
                 const questions = getItem('questions');
@@ -51,9 +57,17 @@ export default {
 
     reducers: {
         setInfo(state, { payload: info }) {
+            setData(state, info);
             return {
                 ...state,
                 ...info
+            };
+        },
+        setUser(state, { payload: user }) {
+            setItem('user', user);
+            return {
+                ...state,
+                user: user || ''
             };
         },
         setQuestions(state, { payload: questions }) {

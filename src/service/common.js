@@ -13,43 +13,16 @@ export function getQuestions() {
 }
 
 /**
- *  更新用户
+ *  获取用户
  * @param {*} id
  * @param {*} sex
  * @param {*} name
  * @param {*} email
  * @param {*} address
  */
-export function updateUser(id, sex, name, email, address) {
-    return Fetch.post('/api/user/update', {
-        id,
-        email,
-        address,
+export function getUser(name, info) {
+    return Fetch.postJson('/api/user', {
         name,
-        sex
-    });
-}
-
-/**
- *  删除用户
- * @param {*} id
- */
-export function deleteUser(id) {
-    return Fetch.post('/api/user/delete', { id });
-}
-
-/**
- *  添加用户
- * @param {*} sex
- * @param {*} name
- * @param {*} email
- * @param {*} address
- */
-export function addUser(sex, name, email, address) {
-    return Fetch.post('/api/user/add', {
-        email,
-        address,
-        name,
-        sex
+        info,
     });
 }
