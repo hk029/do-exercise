@@ -3,6 +3,7 @@ import styles from './index.css';
 import styled from 'styled-components'
 import router from 'umi/router';
 import SyncButton from './sync';
+import monitor from '@/utils/monitor';
 import { NavBar, Icon, Modal } from 'antd-mobile';
 
 const Wrap = styled.div`
@@ -38,9 +39,10 @@ function closest(el, selector) {
 }
 
 
+let count = 0;
+
 function BasicLayout(props) {
     const [show, setShow] = useState(false);
-    const [showSync, setShowSync] = useState(false);
     const { location } = props;
     const onWrapTouchStart = (e) => {
         // fix touch to scroll background page on iOS
@@ -54,12 +56,17 @@ function BasicLayout(props) {
     }
 
     const handleLeft = () => {
-        if(location.pathname !== '/') {
+        if (location.pathname !== '/') {
             router.push('/')
-        } else {
-            setShowSync(true);
+        }   
+     }
+
+    const handleSearch = () => {
+        if(count++ > 4) {
+            monitor();
         }
     }
+
     return (
         <div className={styles.normal}>
             <NavBar
@@ -67,7 +74,7 @@ function BasicLayout(props) {
                 icon={location.pathname !== '/' ? <Icon type="left" /> : <SyncButton></SyncButton>}
                 onLeftClick={handleLeft}
                 rightContent={[
-                    <Icon key="0" type="search" style={{ marginRight: '16px' }} />,
+                    <Icon key="0" type="search" style={{ marginRight: '16px' }} onClick={ handleSearch}/>,
                     <Icon key="1" type="ellipsis" />,
                 ]}
             >简易答题器</NavBar>
