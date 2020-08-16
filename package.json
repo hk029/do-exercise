@@ -1,5 +1,6 @@
 {
   "private": true,
+  "question-version": "1.0",
   "scripts": {
     "start": "umi dev",
     "build": "umi build",

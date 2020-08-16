@@ -1,5 +1,6 @@
 import * as commonService from '@/service/common';
 import { getInfo, getItem, setItem } from '@/utils/store';
+import pack from '../../package.json';
 
 const setData = (state, info) => {
     const errorList = info.errorList || state.errorList;
@@ -43,12 +44,14 @@ export default {
                 const info = getInfo();
                 yield put({ type: 'setInfo', payload: info });
                 const questions = getItem('questions');
-                if (questions) {
+                const version = getItem('version');
+                if (questions && version === pack['question-version']) {
                     yield put({ type: 'setQuestions', payload: questions });
                     return questions;
                 } else {
                     const { data } = yield call(commonService.getQuestions);
                     yield put({ type: 'setQuestions', payload: data });
+                    yield put({ type: 'setVersion', payload: pack['question-version'] });
                     return data;
                 }
             }
@@ -61,6 +64,13 @@ export default {
             return {
                 ...state,
                 ...info
+            };
+        },
+        setVersion(state, { payload: version }) {
+            setItem('version', version);
+            return {
+                ...state,
+                version
             };
         },
         setUser(state, { payload: user }) {
