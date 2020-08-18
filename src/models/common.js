@@ -9,6 +9,36 @@ const setData = (state, info) => {
     setItem('info', { errorList, index, correctList });
 };
 
+const setTestData = (state, info) => {
+    const testList = { ...state.testList, ...info };
+    setItem('test', testList);
+    return testList;
+};
+
+const shuffle = (arr, t, needId = false) => {
+    const newArr = Array.from(new Array(arr.length).keys())
+    const times = Math.min(arr.length, t);
+    const lastIndex = arr.length - 1;
+    for (let i = 0; i < times; i++) {
+        let rand = i + Math.floor(Math.random() * (lastIndex - i + 1))
+        const value = newArr[rand];
+        newArr[rand] = newArr[i];
+        newArr[i] = value;
+    }
+    return needId ? newArr.slice(0, t) : newArr.slice(0, t).map(idx => arr[idx]);
+}
+
+
+const merge = (a,b) => {
+    let arr = [...b];
+    a.forEach(item => {
+        if(!arr.includes(item)) {
+            arr.push(item);
+        }
+    })
+    return arr;
+}
+
 export default {
     namespace: 'common',
 
@@ -26,9 +56,32 @@ export default {
         headers: [],
         errorList: [],
         correctList: [],
+        testList: {
+            index: 0,
+            list: [],
+            answers: [],
+            errorList: [],
+            result: false
+        },
     },
 
     effects: {
+        * getTest({ payload: reset }, { call, put, select }) {
+            const questions = yield select(({ common }) => common.questions);
+            let testList = getItem('test');
+            // 如果有test则直接用test
+            if (reset || !testList) {
+                testList = {
+                    index: 0,
+                    answers: [],
+                    errorList: [],
+                    result: false,
+                    list: shuffle(questions, 100, true),
+                }
+            }
+            yield put({ type: 'setTest', payload: testList });
+            return testList;
+        },
         * getUser({ payload: name }, { call, put, select }) {
             const info = getInfo();
             const { data } = yield call(commonService.getUser, name, info);
@@ -59,6 +112,13 @@ export default {
     },
 
     reducers: {
+        setTest(state, { payload: testList }) {
+            setItem('test', testList);
+            return {
+                ...state,
+                testList
+            };
+        },
         setInfo(state, { payload: info }) {
             setData(state, info);
             return {
@@ -88,17 +148,6 @@ export default {
                 questions
             };
         },
-        preIndex(state) {
-            const index = Math.max(0, state.index - 1);
-            if (index !== state.index) {
-                setData(state, { index });
-                return {
-                    ...state,
-                    index
-                }
-            }
-            return state;
-        },
         nextIndex(state) {
             const length = state.questions.length;
             const index = Math.min(length - 1, state.index + 1)
@@ -110,6 +159,48 @@ export default {
                 };
             }
             return state;
+        },
+        preIndex(state) {
+            const index = Math.max(0, state.index - 1);
+            if (index !== state.index) {
+                setData(state, { index });
+                return {
+                    ...state,
+                    index
+                }
+            }
+            return state;
+        },
+        preTestIndex(state) {
+            const index = Math.max(0, state.testList.index - 1)
+            if (index !== state.testList.index) {
+                return {
+                    ...state,
+                    testList: setTestData(state, { index })
+                };
+            }
+            return state;
+        },
+        nextTestIndex(state) {
+            const index = Math.min(99, state.testList.index + 1)
+            if (index !== state.testList.index) {
+                return {
+                    ...state,
+                    testList: setTestData(state, { index })
+                };
+            }
+            return state;
+        },
+        setTestResult(state, { payload: result }) {
+            const errorList = state.errorList;
+            const testErrors = state.testList.errorList;
+            let newList = merge(errorList, testErrors);
+            setData(state, {errorList : newList});
+            return {
+                ...state,
+                errorList: newList,
+                testList: setTestData(state, { result })
+            };
         },
         correctQuestion(state, { payload: id }) {
             const correctList = [...state.correctList];
@@ -139,6 +230,19 @@ export default {
                 correctList
             };
         },
+        setTestAnswer(state, { payload: { idx, answer, id, wrong } }) {
+            const errorList = [...state.testList.errorList];
+            const answers = [...state.testList.answers];
+            if (wrong && !errorList.includes(id)) {
+                errorList.push(id);
+            }
+            answers[idx] = answer;
+            const testList = setTestData(state, { answers, errorList });
+            return {
+                ...state,
+                testList
+            };
+        },
         setError(state, { payload: id }) {
             const errorList = [...state.errorList];
             if (errorList.includes(id)) {
@@ -150,9 +254,8 @@ export default {
                 ...state,
                 errorList
             };
-        }
+        },
     },
-
     subscriptions: {
         getQuestions({ dispatch, history }) {
             return history.listen(() => {
