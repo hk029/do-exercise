@@ -11,6 +11,8 @@
 /dist/umi.*
 /mock/user*
 
+nohup.txt
+
 # misc
 .DS_Store
 
