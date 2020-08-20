@@ -326,8 +326,6 @@
             "D . 预测菜点成本"
         ],
         "answer": "D",
-        "link": "http://www.jiandati.com/q/2ZDLl7",
-        "correctAnswer": "A"
     },
     {
         "title": "在菜点销售价格和耗料一致的条件下，销售毛利率与是()存在换算关系。",
@@ -539,7 +537,9 @@
             "C . 糖色易变",
             "D . 鸡蛋不新鲜"
         ],
-        "answer": "D"
+        "answer": "D",
+        "correctAnswer": "B",
+        "link": "https://img.hksite.cn/WechatIMG223.jpeg"
     },
     {
         "title": "()是在用黄油、面粉、白糖、鸡蛋等主要原料调制成面坯的基础上，经擀制、成型、成熟、装饰等工艺制成的一类酥而无层的点心。",
@@ -2957,7 +2957,7 @@
             "C . 0.8",
             "D . 1.5"
         ],
-        "answer": "B"
+        "answer": "D"
     },
     {
         "title": "干木耳200 克，经加工的600 克水发，此木耳的涨发率是()。",
@@ -3387,9 +3387,7 @@
             "C . 15～26℃",
             "D . 26～33℃"
         ],
-        "answer": "A",
-        "link": "http://www.jiandati.com/q/k6Ym4W",
-        "correctAnswer": "C"
+        "answer": "A"
     },
     {
         "title": "同一规格、质量的原料，由于加工技术的不同，原料出材率()。",
